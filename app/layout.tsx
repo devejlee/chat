@@ -1,4 +1,5 @@
 import './globals.scss'
+import ProvidersWrapper from '@/components/ProvidersWrapper/ProvidersWrapper'
 
 export default function RootLayout({
   children,
@@ -12,7 +13,11 @@ export default function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body>{children}</body>
+      <body>
+        <ProvidersWrapper>
+          {children}
+        </ProvidersWrapper>
+      </body>
     </html>
   )
 }
