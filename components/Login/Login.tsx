@@ -3,8 +3,16 @@ import { useSession, signIn, signOut } from 'next-auth/react'
 import UserCard from '../UserCard/UserCard';
 
 export default function Login() {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   console.log('session: ', session)
+  if (status === "loading") {
+    return <p>Loading...</p>
+  }
+
+  if (status === "unauthenticated") {
+    return <p>Access Denied</p>
+  }
+
   if (session) {
     return (
       <>
@@ -17,7 +25,7 @@ export default function Login() {
   }
 
   return (
-    <button onClick={() => signIn()}>
+    <button onClick={() => signIn("google")}>
       Sign in with Google
     </button>
   )
