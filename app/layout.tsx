@@ -1,3 +1,4 @@
+import '@/styles/globals.scss';
 import ProvidersWrapper from '@/components/ProvidersWrapper/ProvidersWrapper';
 import { Inter } from '@next/font/google';
 

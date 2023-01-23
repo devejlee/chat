@@ -1,27 +1,19 @@
 'use client';
 import styles from './Login.module.scss';
-import { useSession, signIn, signOut } from 'next-auth/react';
-import UserCard from '../UserCard/UserCard';
+import { signIn } from 'next-auth/react';
+import Link from 'next/link';
 
 export default function Login() {
-  const { data: session } = useSession();
-  console.log('session: ', session);
-  if (session) {
-    return (
-      <div className={styles.wrapper}>
-        <button onClick={() => signOut()}>
-          Sign out of Google
-        </button>
-        <UserCard user={session?.user} />
-      </div>
-    );
-  }
-
   return (
-    <div className={styles.wrapper}>
-      <button onClick={() => signIn('google')}>
-        Sign in with Google
-      </button>
-    </div>
+    <div className={styles.formContainer}>
+      <div className={styles.formWrapper}>
+        <span className={styles.logo}>Live Chat</span>
+        <span className={styles.title}>Login</span>
+        <button onClick={() => signIn('google')}>
+          Sign in with Google
+        </button>
+        <p>You don&apos;t have an account? <Link href="/register">Register</Link></p>
+      </div>
+    </div >
   );
 }
