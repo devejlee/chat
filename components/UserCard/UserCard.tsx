@@ -1,7 +1,7 @@
-import { DefaultSession } from 'next-auth'
+import { DefaultSession } from 'next-auth';
 
 interface UserCardProps {
-  user: DefaultSession["user"]
+  user: DefaultSession['user']
 }
 
 export default function UserCard({ user }: UserCardProps) {
@@ -11,5 +11,5 @@ export default function UserCard({ user }: UserCardProps) {
       <p>{user?.name}</p>
       <p>{user?.email}</p>
     </div>
-  )
+  );
 }

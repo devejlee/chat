@@ -1,5 +1,5 @@
-import './globals.scss'
-import ProvidersWrapper from '@/components/ProvidersWrapper/ProvidersWrapper'
+import './globals.scss';
+import ProvidersWrapper from '@/components/ProvidersWrapper/ProvidersWrapper';
 
 export default function RootLayout({
   children,
@@ -19,5 +19,5 @@ export default function RootLayout({
         </ProvidersWrapper>
       </body>
     </html>
-  )
+  );
 }

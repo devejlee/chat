@@ -1,8 +1,8 @@
-import { Inter } from '@next/font/google'
-import styles from './page.module.scss'
-import Login from '@/components/Login/Login'
+import { Inter } from '@next/font/google';
+import styles from './page.module.scss';
+import Login from '@/components/Login/Login';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
   return (
@@ -10,5 +10,5 @@ export default function Home() {
       <h3>Log in</h3>
       <Login />
     </main>
-  )
+  );
 }
