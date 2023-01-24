@@ -1,9 +1,11 @@
 'use client';
 import styles from './Register.module.scss';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 export default function Register() {
+  const router = useRouter();
   return (
     <div className={styles.formContainer}>
       <div className={styles.formWrapper}>
@@ -18,19 +20,24 @@ export default function Register() {
             }
             // If onSubmit is async, Formik automatically sets isSubmitting to false once it resolves
             try {
-              console.log('values', values);
               const res = await fetch('/api/firebaseAuth', {
                 method: 'POST',
                 body: JSON.stringify(values),
                 headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
               });
               if (!res.ok) {
-                throw new Error(`Error sending message: ${res.status}`);
+                const json = await res.json();
+                if (res.status === 500) {
+                  throw new Error(`${json.error}`);
+                } else {
+                  throw new Error(`Error sending message: ${res.status}`);
+                }
+              } else {
+                setStatus({ error: '' });
+                router.push('/');
               }
-              setStatus({ error: '' });
             } catch (error) {
-              console.error(error);
-              setStatus({ error: 'There was an api error.' });
+              setStatus({ error: (error as Error).message });
               throw error;
             }
           }}

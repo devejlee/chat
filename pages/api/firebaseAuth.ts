@@ -4,20 +4,19 @@ import { firebaseAuth } from '@/utils/firebase';
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const data = req.body;
-    const test= await firebaseAuth.createUser({ 
-      email: data.email,
-      password: data.password,
-      displayName: data.name
-    });
-    console.log('test', test);
-
-    return res.status(200).json({
-      test: 'hi',
-    });
-  }
-
-  if (req.method === 'GET') {
-    // return res.status(200).json({ total: count });
+    try {
+      await firebaseAuth.createUser({ 
+        email: data.email,
+        password: data.password,
+        displayName: data.name
+      });
+      return res.status(201).json({
+        message: 'User created successfully',
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'User already exists with this email' });
+    }
   }
 };
 
