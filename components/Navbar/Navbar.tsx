@@ -10,16 +10,16 @@ export default function Navbar() {
   return (
     <div className={styles.navbar}>
       <span className={styles.logo}>Live Chat</span>
-      <div className={styles.useRouter}>
+      <div className={styles.user}>
         {session?.user?.image ? (
           <Image
             src={session?.user?.image}
             alt="user image"
-            width={50}
-            height={50}
+            width={24}
+            height={24}
           />
         ) : (
-          <div>image</div>
+          <div></div>
         )}
         <span>{session?.user?.name}</span>
         <button onClick={() => signOut()}>Logout</button>
