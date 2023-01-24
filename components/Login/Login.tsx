@@ -1,21 +1,22 @@
 'use client';
 import styles from './Login.module.scss';
 import { signIn } from 'next-auth/react';
-import Link from 'next/link';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+// import Link from 'next/link';
+// import { Formik, Form, Field, ErrorMessage } from 'formik';
 
-interface LoginFormValues {
-  email: string;
-  password: string
-}
+// interface LoginFormValues {
+//   email: string;
+//   password: string
+// }
 
 export default function Login() {
   return (
     <div className={styles.formContainer}>
       <div className={styles.formWrapper}>
         <span className={styles.logo}>Live Chat</span>
-        <span className={styles.title}>Login</span>
-        <Formik
+        {/* TODO: Integrate Firebase Registration */}
+        {/* <span className={styles.title}>Login</span> */}
+        {/* <Formik
           initialValues={{ email: '', password: '' }}
           onSubmit={async (values, { setStatus }) => {
             // If onSubmit is async, Formik automatically sets isSubmitting to false once it resolves
@@ -49,11 +50,10 @@ export default function Login() {
               {status?.error && <p className={styles.errorStatus}>{status.error}</p>}
             </Form>
           )}
-        </Formik>
+        </Formik> */}
         <button onClick={() => signIn('google')}>
           Login with Google
         </button>
-        <p>Don&apos;t have an account? <Link href="/register">Register</Link></p>
       </div>
     </div >
   );

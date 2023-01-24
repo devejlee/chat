@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
+{/* TODO: Integrate Firebase Registration */ }
 export default function Register() {
   const router = useRouter();
   return (

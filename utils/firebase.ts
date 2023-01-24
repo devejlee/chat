@@ -14,4 +14,5 @@ if (!admin.apps.length) {
 }
 
 export const database = admin.firestore();
+{/* TODO: Integrate Firebase Registration */}
 export const firebaseAuth = admin.auth();
