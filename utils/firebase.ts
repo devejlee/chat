@@ -14,5 +14,6 @@ if (!admin.apps.length) {
 }
 
 export const database = admin.firestore();
+export const storageBucket = admin.storage().bucket(process.env.FIREBASE_BUCKET_URL);
 {/* TODO: Integrate Firebase Registration */}
 export const firebaseAuth = admin.auth();
