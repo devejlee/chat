@@ -28,11 +28,16 @@
     background-color: #2f2d52;
   }
   img {
-    width: 50px;
-    height: 50px;
     border-radius: 50%;
     object-fit: cover;
   }
+}
+
+.error {
+  font-size: 18px;
+  font-weight: 500;
+  color: lightgray;
+  padding-left: 10px;
 }
 
 .userChatInfo {
