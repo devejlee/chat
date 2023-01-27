@@ -1,7 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { DataPayload } from '@/typedef';
 import { database } from '@/utils/firebase';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse<DataPayload>) => {
   if (req.method === 'POST') {
     const { name } = req.body;
     try {
@@ -14,7 +15,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         });
         return res.status(200).json({
           message: 'User found',
-          user: userData
+          user: userData as DataPayload['user']
         });
       } else {
         return res.status(404).json({

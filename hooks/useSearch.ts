@@ -1,3 +1,4 @@
+import { DataPayload } from '@/typedef';
 import useSWRMutation from 'swr/mutation';
 
 const fetcher = async (url: string, { arg }: { arg: { name: string } }) => {
@@ -10,7 +11,7 @@ const fetcher = async (url: string, { arg }: { arg: { name: string } }) => {
 };
 
 export const useSearch = () => {
-  const { trigger, data, isMutating } = useSWRMutation('/api/searchUsers', fetcher);
+  const { trigger, data, isMutating } = useSWRMutation<DataPayload>('/api/searchUsers', fetcher);
 
   return {
     trigger,
