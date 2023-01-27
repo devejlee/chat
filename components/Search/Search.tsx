@@ -2,38 +2,15 @@
 import styles from './Search.module.scss';
 import Image from 'next/image';
 import { useState, KeyboardEventHandler } from 'react';
-
-interface User {
-  image: string;
-  name: string;
-}
+import { useSearch } from '@/hooks/useSearch';
 
 export default function Search() {
   const [username, setUsername] = useState('');
-  const [user, setUser] = useState<User | null>(null);
-  const [err, setErr] = useState(false);
+
+  const { trigger, data, isMutating } = useSearch();
 
   const handleSearch = async () => {
-    try {
-      const res = await fetch('/api/searchUsers', {
-        method: 'POST',
-        body: JSON.stringify({ name: username }),
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      });
-      if (!res.ok) {
-        throw new Error(`Error searching user: ${res.status}`);
-      }
-      const data = await res.json();
-      console.log('data', data);
-      if (data.user) {
-        setErr(false);
-        setUser(data.user);
-      }
-    } catch (error) {
-      console.error(error);
-      setErr(true);
-      setUser(null);
-    }
+    trigger({ name: username });
   };
 
   const handleKey: KeyboardEventHandler<HTMLInputElement> = (e) => {
@@ -50,6 +27,7 @@ export default function Search() {
     <div className={styles.search}>
       <div className={styles.searchForm}>
         <input
+          disabled={isMutating}
           type="text"
           placeholder="Find a user"
           onKeyDown={handleKey}
@@ -57,17 +35,18 @@ export default function Search() {
           value={username}
         />
       </div>
-      {err && <span className={styles.error}>User not found!</span>}
-      {user && (
+      {isMutating && <span className={styles.error}>Seaching...</span>}
+      {!isMutating && data && !data?.user && <span className={styles.error}>User not found!</span>}
+      {data?.user && (
         <div className={styles.userChat} onClick={handleSelect}>
           <Image
-            src={user.image}
+            src={data?.user.image}
             alt="user image"
             width={50}
             height={50}
           />
           <div className={styles.userChatInfo}>
-            <span>{user.name}</span>
+            <span>{data?.user.name}</span>
           </div>
         </div>
       )}
