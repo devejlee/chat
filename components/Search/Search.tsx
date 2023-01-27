@@ -38,7 +38,7 @@ export default function Search() {
       {error && <span className={styles.message}>Error searching</span>}
       {isMutating && <span className={styles.message}>Seaching...</span>}
       {!isMutating && data && !data?.user && <span className={styles.message}>User not found!</span>}
-      {data?.user && (
+      {!isMutating && data?.user && (
         <div className={styles.userChat} onClick={handleSelect}>
           <Image
             src={data?.user.image}
