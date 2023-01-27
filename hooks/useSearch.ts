@@ -11,11 +11,12 @@ const fetcher = async (url: string, { arg }: { arg: { name: string } }) => {
 };
 
 export const useSearch = () => {
-  const { trigger, data, isMutating } = useSWRMutation<DataPayload>('/api/searchUsers', fetcher);
+  const { trigger, data, error, isMutating } = useSWRMutation<DataPayload>('/api/searchUsers', fetcher);
 
   return {
     trigger,
     data,
+    error,
     isMutating
   };
 };

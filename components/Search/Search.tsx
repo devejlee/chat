@@ -7,7 +7,7 @@ import { useSearch } from '@/hooks/useSearch';
 export default function Search() {
   const [username, setUsername] = useState('');
 
-  const { trigger, data, isMutating } = useSearch();
+  const { trigger, data, error, isMutating } = useSearch();
 
   const handleSearch = async () => {
     trigger({ name: username });
@@ -35,8 +35,9 @@ export default function Search() {
           value={username}
         />
       </div>
-      {isMutating && <span className={styles.error}>Seaching...</span>}
-      {!isMutating && data && !data?.user && <span className={styles.error}>User not found!</span>}
+      {error && <span className={styles.message}>Error searching</span>}
+      {isMutating && <span className={styles.message}>Seaching...</span>}
+      {!isMutating && data && !data?.user && <span className={styles.message}>User not found!</span>}
       {data?.user && (
         <div className={styles.userChat} onClick={handleSelect}>
           <Image
