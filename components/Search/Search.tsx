@@ -27,7 +27,10 @@ export default function Search() {
     let combinedId = '';
     if (session?.user?.email) {
       combinedId = `${session?.user?.email}+${search.data?.user?.email}`;
-      select.trigger({ combinedId: combinedId });
+      select.trigger({
+        combinedId: combinedId,
+        user: search.data?.user
+      });
     }
   };
 

@@ -1,10 +1,12 @@
 export interface DataPayload {
   message?: string;
-  user?: {
-    email: string;
-    emailVerified: null;
-    image: string;
-    name: string;
-  }
+  user?: DataUser
   error?: string
+}
+
+export interface DataUser {
+  email: string;
+  emailVerified: null;
+  image: string;
+  name: string;
 }
