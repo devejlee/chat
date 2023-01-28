@@ -1,16 +1,20 @@
 'use client';
 import styles from './Search.module.scss';
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';;
 import { useState, KeyboardEventHandler } from 'react';
 import { useSearch } from '@/hooks/useSearch';
+import { useSelect } from '@/hooks/useSelect';
 
 export default function Search() {
   const [username, setUsername] = useState('');
 
-  const { trigger, data, error, isMutating } = useSearch();
+  const { data: session } = useSession();
+  const search = useSearch();
+  const select = useSelect();
 
   const handleSearch = async () => {
-    trigger({ name: username });
+    search.trigger({ name: username });
   };
 
   const handleKey: KeyboardEventHandler<HTMLInputElement> = (e) => {
@@ -20,14 +24,18 @@ export default function Search() {
   };
 
   const handleSelect = async () => {
-
+    let combinedId = '';
+    if (session?.user?.email) {
+      combinedId = `${session?.user?.email}+${search.data?.user?.email}`;
+      select.trigger({ combinedId: combinedId });
+    }
   };
 
   return (
     <div className={styles.search}>
       <div className={styles.searchForm}>
         <input
-          disabled={isMutating}
+          disabled={search.isMutating}
           type="text"
           placeholder="Find a user"
           onKeyDown={handleKey}
@@ -35,19 +43,19 @@ export default function Search() {
           value={username}
         />
       </div>
-      {error && <span className={styles.message}>Error searching</span>}
-      {isMutating && <span className={styles.message}>Seaching...</span>}
-      {!isMutating && data && !data?.user && <span className={styles.message}>User not found!</span>}
-      {!isMutating && data?.user && (
+      {search.error && <span className={styles.message}>Error searching</span>}
+      {search.isMutating && <span className={styles.message}>Seaching...</span>}
+      {!search.isMutating && search.data && !search.data?.user && <span className={styles.message}>User not found!</span>}
+      {!search.isMutating && search.data?.user && (
         <div className={styles.userChat} onClick={handleSelect}>
           <Image
-            src={data?.user.image}
+            src={search.data?.user.image}
             alt="user image"
             width={50}
             height={50}
           />
           <div className={styles.userChatInfo}>
-            <span>{data?.user.name}</span>
+            <span>{search.data?.user.name}</span>
           </div>
         </div>
       )}
