@@ -33,6 +33,8 @@ export default function Search() {
         user: user
       });
     }
+    search.reset();
+    setUsername('');
   };
 
   return (
