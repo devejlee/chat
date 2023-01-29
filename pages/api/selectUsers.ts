@@ -4,18 +4,18 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   if (req.method === 'POST') {
-    const { combinedId, user } = req.body;
+    const { combinedId, selectedUser } = req.body;
     try {
       const chatRef = database.collection('chats');
       await chatRef.doc(combinedId).set({
         messages: []
       }, { merge: true });
       const userChatsRef = database.collection('userChats');
-      await userChatsRef.doc(user.email).set({
+      await userChatsRef.doc(selectedUser.email).set({
         [combinedId]: {
           'userInfo': {
-            email: user.email,
-            name: user.name
+            email: selectedUser.email,
+            name: selectedUser.name
           },
           'date': FieldValue.serverTimestamp()
         },

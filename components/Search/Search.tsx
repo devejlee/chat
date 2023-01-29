@@ -30,7 +30,7 @@ export default function Search() {
       combinedId = `${session?.user?.email}+${user.email}`;
       select.trigger({
         combinedId: combinedId,
-        user: user
+        selectedUser: user
       });
     }
     search.reset();

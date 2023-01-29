@@ -1,7 +1,7 @@
 import useSWRMutation from 'swr/mutation';
 import { DataUser } from '@/typedef';
 
-const fetcher = async (url: string, { arg }: { arg: { combinedId: string, user: DataUser } }) => {
+const fetcher = async (url: string, { arg }: { arg: { combinedId: string, selectedUser: DataUser } }) => {
   const res = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(arg),
