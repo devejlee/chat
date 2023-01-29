@@ -1,7 +1,7 @@
 import { database } from '@/utils/firebase';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse<FirebaseFirestore.DocumentData>) => {
   if (req.method === 'POST') {
     const { email } = req.body;
     try {

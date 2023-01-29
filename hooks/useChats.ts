@@ -10,7 +10,7 @@ const fetcher = async (url: string, { arg }: { arg: { email: string } }) => {
 };
 
 export const useChats = () => {
-  const { trigger, reset, data, error, isMutating } = useSWRMutation('/api/userChats', fetcher);
+  const { trigger, reset, data, error, isMutating } = useSWRMutation<FirebaseFirestore.DocumentData>('/api/userChats', fetcher);
 
   return {
     trigger,
