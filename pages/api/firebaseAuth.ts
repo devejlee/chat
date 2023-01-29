@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { database, firebaseAuth } from '@/utils/firebase';
 
+{/* TODO: Integrate Firebase Registration */ }
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const data = req.body;

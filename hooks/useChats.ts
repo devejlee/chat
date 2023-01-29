@@ -1,6 +1,6 @@
 import useSWRMutation from 'swr/mutation';
 
-const fetcher = async (url: string, { arg }: { arg: { name: string } }) => {
+const fetcher = async (url: string, { arg }: { arg: { email: string } }) => {
   const res = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(arg),
@@ -9,8 +9,8 @@ const fetcher = async (url: string, { arg }: { arg: { name: string } }) => {
   return await res.json();
 };
 
-export const useSearch = () => {
-  const { trigger, reset, data, error, isMutating } = useSWRMutation('/api/searchUsers', fetcher);
+export const useChats = () => {
+  const { trigger, reset, data, error, isMutating } = useSWRMutation('/api/userChats', fetcher);
 
   return {
     trigger,

@@ -11,7 +11,7 @@ const fetcher = async (url: string, { arg }: { arg: { selectedUser: DataUser, cu
 };
 
 export const useSelect = () => {
-  const { trigger, data, error, isMutating } = useSWRMutation<any>('/api/selectUsers', fetcher);
+  const { trigger, data, error, isMutating } = useSWRMutation('/api/selectUsers', fetcher);
 
   return {
     trigger,
