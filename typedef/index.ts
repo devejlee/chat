@@ -10,3 +10,9 @@ export interface DataUser {
   image: string;
   name: string;
 }
+
+export interface CurrentUser {
+  email: string;
+  image: string;
+  name: string;
+}

@@ -9,18 +9,27 @@ type Data = {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   if (req.method === 'POST') {
-    const { combinedId, selectedUser } = req.body;
+    const { selectedUser, currentUser } = req.body;
     try {
       const chatRef = database.collection('chats');
-      await chatRef.doc(combinedId).set({
+      await chatRef.doc(`${currentUser.email}+${selectedUser.email}`).set({
         messages: []
       }, { merge: true });
       const userChatsRef = database.collection('userChats');
       await userChatsRef.doc(selectedUser.email).set({
-        [combinedId]: {
+        [`${currentUser.email}+${selectedUser.email}`]: {
           'userInfo': {
             email: selectedUser.email,
             name: selectedUser.name
+          },
+          'date': FieldValue.serverTimestamp()
+        },
+      }, { merge: true });
+      await userChatsRef.doc(currentUser.email).set({
+        [`${selectedUser.email}+${currentUser.email}`]: {
+          'userInfo': {
+            email: currentUser.email,
+            name: currentUser.name
           },
           'date': FieldValue.serverTimestamp()
         },

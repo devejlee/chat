@@ -29,8 +29,8 @@ export default function Search() {
     if (session?.user?.email) {
       combinedId = `${session?.user?.email}+${user.email}`;
       select.trigger({
-        combinedId: combinedId,
-        selectedUser: user
+        selectedUser: user,
+        currentUser: session.user
       });
     }
     search.reset();
