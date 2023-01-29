@@ -1,6 +1,6 @@
 export interface DataPayload {
   message?: string;
-  user?: DataUser
+  users?: Array<DataUser>;
   error?: string
 }
 

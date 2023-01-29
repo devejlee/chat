@@ -1,10 +1,11 @@
 'use client';
 import styles from './Search.module.scss';
 import Image from 'next/image';
-import { useSession } from 'next-auth/react';;
+import { useSession } from 'next-auth/react';
 import { useState, KeyboardEventHandler } from 'react';
 import { useSearch } from '@/hooks/useSearch';
 import { useSelect } from '@/hooks/useSelect';
+import { DataUser } from '@/typedef';
 
 export default function Search() {
   const [username, setUsername] = useState('');
@@ -23,13 +24,13 @@ export default function Search() {
     }
   };
 
-  const handleSelect = async () => {
+  const handleSelect = async (user: DataUser) => {
     let combinedId = '';
     if (session?.user?.email) {
-      combinedId = `${session?.user?.email}+${search.data?.user?.email}`;
+      combinedId = `${session?.user?.email}+${user.email}`;
       select.trigger({
         combinedId: combinedId,
-        user: search.data?.user
+        user: user
       });
     }
   };
@@ -48,18 +49,22 @@ export default function Search() {
       </div>
       {search.error && <span className={styles.message}>Error searching</span>}
       {search.isMutating && <span className={styles.message}>Seaching...</span>}
-      {!search.isMutating && search.data && !search.data?.user && <span className={styles.message}>User not found!</span>}
-      {!search.isMutating && search.data?.user && (
-        <div className={styles.userChat} onClick={handleSelect}>
-          <Image
-            src={search.data?.user.image}
-            alt="user image"
-            width={50}
-            height={50}
-          />
-          <div className={styles.userChatInfo}>
-            <span>{search.data?.user.name}</span>
-          </div>
+      {!search.isMutating && search.data && !search.data?.users && <span className={styles.message}>Users not found!</span>}
+      {!search.isMutating && search.data?.users && (
+        <div className={styles.userList}>
+          {search.data?.users.map((user) => (
+            <div className={styles.userChat} key={user.email} onClick={() => handleSelect(user)}>
+              <Image
+                src={user.image}
+                alt="user image"
+                width={50}
+                height={50}
+              />
+              <div className={styles.userChatInfo}>
+                <span>{user.name}</span>
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>
