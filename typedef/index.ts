@@ -12,7 +12,7 @@ export interface DataUser {
 }
 
 export interface CurrentUser {
-  email: string;
-  image: string;
-  name: string;
+  email?: string | null | undefined;
+  image?: string | null | undefined;
+  name?: string | null | undefined;
 }

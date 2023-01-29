@@ -1,3 +1,4 @@
+import { DataPayload } from '@/typedef';
 import useSWRMutation from 'swr/mutation';
 import { DataUser, CurrentUser } from '@/typedef';
 
@@ -11,7 +12,7 @@ const fetcher = async (url: string, { arg }: { arg: { selectedUser: DataUser, cu
 };
 
 export const useSelect = () => {
-  const { trigger, data, error, isMutating } = useSWRMutation('/api/selectUsers', fetcher);
+  const { trigger, data, error, isMutating } = useSWRMutation<DataPayload>('/api/selectUsers', fetcher);
 
   return {
     trigger,
