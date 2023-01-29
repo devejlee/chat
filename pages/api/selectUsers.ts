@@ -2,7 +2,12 @@ import { database } from '@/utils/firebase';
 import { FieldValue } from 'firebase-admin/firestore';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
+type Data = {
+  message?: string 
+  error?: string
+}
+
+const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   if (req.method === 'POST') {
     const { combinedId, selectedUser } = req.body;
     try {
