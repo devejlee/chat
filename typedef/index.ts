@@ -16,3 +16,15 @@ export interface CurrentUser {
   image?: string | null | undefined;
   name?: string | null | undefined;
 }
+
+export interface Chat {
+  userInfo: {
+    name: string;
+    email: string;
+    image: string;
+  };
+  date: {
+    _seconds: number;
+    _nanoseconds: number;
+  };
+}

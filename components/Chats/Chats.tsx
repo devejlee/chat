@@ -1,25 +1,17 @@
 'use client';
 import styles from './Chats.module.scss';
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { useChats } from '@/hooks/useChats';
-
-interface Chat {
-  userInfo: {
-    name: string;
-    email: string;
-    image: string;
-  };
-  date: {
-    _seconds: number;
-    _nanoseconds: number;
-  };
-}
+import { Chat } from '@/typedef';
+import { ChatContext } from '@/context/ChatContext';
 
 export default function Chats() {
   const { data: session } = useSession();
   const { data, isMutating, trigger } = useChats();
+
+  const { dispatch } = useContext(ChatContext);
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -27,8 +19,8 @@ export default function Chats() {
     }
   }, [session?.user?.email, trigger]);
 
-  const handleSelect = (u: Chat['userInfo']) => {
-    // dispatch({ type: "CHANGE_USER", payload: u });
+  const handleSelect = (userInfo: Chat['userInfo']) => {
+    dispatch({ type: 'CHANGE_USER', payload: userInfo });
   };
 
   const chats = data && data.userChats && Object.entries(data?.userChats) as Array<[string, Chat]>;
