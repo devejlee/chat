@@ -1,6 +1,7 @@
 'use client';
 import styles from './Chats.module.scss';
 import React, { useEffect } from 'react';
+import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { useChats } from '@/hooks/useChats';
 
@@ -8,6 +9,7 @@ interface Chat {
   userInfo: {
     name: string;
     email: string;
+    image: string;
   };
   date: {
     _seconds: number;
@@ -38,15 +40,18 @@ export default function Chats() {
         {chats?.sort((a: [string, Chat], b: [string, Chat]) => (b[1].date._seconds || 0) - (a[1].date._seconds || 0))
           .map((chat: [string, Chat]) => (
             <div
-              className="userChat"
+              className={styles.userChat}
               key={chat[0]}
               onClick={() => handleSelect(chat[1].userInfo)}
             >
-              {/* <img src={chat[1].userInfo.image} alt="" /> */}
-              <div className="userChatInfo">
+              <Image
+                src={chat[1].userInfo.image}
+                alt="user image"
+                width={50}
+                height={50}
+              />
+              <div className={styles.userChatInfo}>
                 <span>{chat[1].userInfo.name}</span>
-                <br />
-                <span>{chat[1].userInfo.email}</span>
                 {/* <p>{chat[1].lastMessage?.text}</p> */}
               </div>
             </div>

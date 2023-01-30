@@ -16,7 +16,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<DataPayload>) =
         [`${currentUser.email}+${selectedUser.email}`]: {
           'userInfo': {
             email: currentUser.email,
-            name: currentUser.name
+            name: currentUser.name,
+            image: currentUser.image
           },
           'date': FieldValue.serverTimestamp()
         },
@@ -25,7 +26,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<DataPayload>) =
         [`${selectedUser.email}+${currentUser.email}`]: {
           'userInfo': {
             email: selectedUser.email,
-            name: selectedUser.name
+            name: selectedUser.name,
+            image: selectedUser.image
           },
           'date': FieldValue.serverTimestamp()
         },
