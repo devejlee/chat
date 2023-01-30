@@ -1,22 +1,17 @@
-import useSWRMutation from 'swr/mutation';
+import useSWR from 'swr';
 
-const fetcher = async (url: string, { arg }: { arg: { email: string } }) => {
-  const res = await fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(arg),
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-  });
-  return await res.json();
+const fetcher = async (url: string) => {
+  const res = await fetch(url);
+  return res.json();
 };
 
-export const useChats = () => {
-  const { trigger, reset, data, error, isMutating } = useSWRMutation<FirebaseFirestore.DocumentData>('/api/userChats', fetcher);
+export const useChats = (slug: string) => {
+  const { data, isLoading, error, mutate } = useSWR(`/api/userChats/?email=${slug}`, fetcher);
 
   return {
-    trigger,
-    reset,
     data,
+    isLoading,
     error,
-    isMutating
+    mutate
   };
 };

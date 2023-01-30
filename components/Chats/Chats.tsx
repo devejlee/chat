@@ -9,15 +9,9 @@ import { ChatContext } from '@/context/ChatContext';
 
 export default function Chats() {
   const { data: session } = useSession();
-  const { data, isMutating, trigger } = useChats();
+  const { data, isLoading } = useChats(session?.user?.email ? session?.user?.email : '');
 
   const { dispatch } = useContext(ChatContext);
-
-  useEffect(() => {
-    if (session?.user?.email) {
-      trigger({ email: session?.user.email });
-    }
-  }, [session?.user?.email, trigger]);
 
   const handleSelect = (userInfo: Chat['userInfo']) => {
     dispatch({ type: 'CHANGE_USER', payload: userInfo });
@@ -28,7 +22,7 @@ export default function Chats() {
   return (
     <div className={styles.chats}>
       <div className={styles.chats}>
-        {isMutating && <p>Loading...</p>}
+        {isLoading && <p>Loading...</p>}
         {chats?.sort((a: [string, Chat], b: [string, Chat]) => (b[1].date._seconds || 0) - (a[1].date._seconds || 0))
           .map((chat: [string, Chat]) => (
             <div

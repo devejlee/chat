@@ -2,11 +2,11 @@ import { database } from '@/utils/firebase';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<FirebaseFirestore.DocumentData>) => {
-  if (req.method === 'POST') {
-    const { email } = req.body;
+  if (req.method === 'GET') {
+    const email = req.query.email;
     try {
       const chatRef = database.collection('userChats');
-      const chatDocument = chatRef.doc(email);
+      const chatDocument = chatRef.doc(email as string);
       const chatData = await chatDocument.get();
       if (chatData.exists) {
         return res.status(200).json({
@@ -23,6 +23,5 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<FirebaseFiresto
     }
   }
 };
-
 
 export default handler;
