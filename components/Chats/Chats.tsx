@@ -34,7 +34,7 @@ export default function Chats({ select }: ChatsProps) {
   return (
     <div className={styles.chats}>
       <div className={styles.chats}>
-        {isLoading || select.isMutating ? <p>Loading...</p>
+        {isLoading || select.isMutating ? <p className={styles.message}>Loading...</p>
           : <>
             {chats?.sort((a: [string, Chat], b: [string, Chat]) => (b[1].date._seconds || 0) - (a[1].date._seconds || 0))
               .map((chat: [string, Chat]) => (
