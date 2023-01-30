@@ -15,8 +15,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<DataPayload>) =
       await userChatsRef.doc(selectedUser.email).set({
         [`${currentUser.email}+${selectedUser.email}`]: {
           'userInfo': {
-            email: selectedUser.email,
-            name: selectedUser.name
+            email: currentUser.email,
+            name: currentUser.name
           },
           'date': FieldValue.serverTimestamp()
         },
@@ -24,8 +24,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<DataPayload>) =
       await userChatsRef.doc(currentUser.email).set({
         [`${selectedUser.email}+${currentUser.email}`]: {
           'userInfo': {
-            email: currentUser.email,
-            name: currentUser.name
+            email: selectedUser.email,
+            name: selectedUser.name
           },
           'date': FieldValue.serverTimestamp()
         },
