@@ -7,7 +7,7 @@ interface ChatContextProviderProps {
 }
 
 interface ChatState {
-  chatId: string;
+  chatId: string | null;
   user: Chat['userInfo'];
 }
 
@@ -37,7 +37,7 @@ export const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
   const { data: session } = useSession();
 
   const INITIAL_STATE: ChatState = {
-    chatId: 'null',
+    chatId: null,
     user: {
       name: '',
       email: '',
@@ -51,7 +51,7 @@ export const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
         if (session?.user?.email) {
           return {
             user: action.payload,
-            chatId: session?.user.email + action.payload.email,
+            chatId: `${session?.user.email}+${action.payload.email}`,
           };
         }
       default:
