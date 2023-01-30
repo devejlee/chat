@@ -4,17 +4,21 @@ import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { useState, KeyboardEventHandler } from 'react';
 import { useSearch } from '@/hooks/useSearch';
-import { useSelect } from '@/hooks/useSelect';
 import { DataUser } from '@/typedef';
 import { useContext } from 'react';
 import { ChatContext } from '@/context/ChatContext';
 
-export default function Search() {
+interface SearchProps {
+  select: {
+    trigger: (selectedUser: { selectedUser: DataUser; currentUser: any }) => void;
+  };
+};
+
+export default function Search({ select }: SearchProps) {
   const [username, setUsername] = useState('');
 
   const { data: session } = useSession();
   const search = useSearch();
-  const select = useSelect();
   const { dispatch } = useContext(ChatContext);
 
   const handleSearch = async () => {
