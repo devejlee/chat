@@ -15,7 +15,7 @@ interface ChatsProps {
 
 export default function Chats({ select }: ChatsProps) {
   const { data: session } = useSession();
-  const { data, isLoading, mutate } = useChats(session?.user?.email ? session?.user?.email : '');
+  const userChats = useChats(session?.user?.email ? session?.user?.email : '');
 
   const { dispatch } = useContext(ChatContext);
 
@@ -25,16 +25,16 @@ export default function Chats({ select }: ChatsProps) {
 
   useEffect(() => {
     if (!select.isMutating) {
-      mutate();
+      userChats.mutate();
     }
-  }, [select.isMutating, mutate]);
+  }, [select.isMutating, userChats.mutate]);
 
-  const chats = data && data.userChats && Object.entries(data?.userChats) as Array<[string, Chat]>;
+  const chats = userChats.data && userChats.data.userChats && Object.entries(userChats.data?.userChats) as Array<[string, Chat]>;
 
   return (
     <div className={styles.chats}>
       <div className={styles.chats}>
-        {isLoading || select.isMutating ? <p className={styles.message}>Loading...</p>
+        {userChats.isLoading || select.isMutating ? <p className={styles.message}>Loading...</p>
           : <>
             {chats?.sort((a: [string, Chat], b: [string, Chat]) => (b[1].date._seconds || 0) - (a[1].date._seconds || 0))
               .map((chat: [string, Chat]) => (
