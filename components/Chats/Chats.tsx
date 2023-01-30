@@ -1,19 +1,23 @@
 'use client';
 import styles from './Chats.module.scss';
-import Image from 'next/image';
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useChats } from '@/hooks/useChats';
 
 interface Chat {
-  userInfo: any;
-  lastMessage?: { text: string };
-  date?: number;
+  userInfo: {
+    name: string;
+    email: string;
+  };
+  date: {
+    _seconds: number;
+    _nanoseconds: number;
+  };
 }
 
 export default function Chats() {
   const { data: session } = useSession();
-  const { data, trigger } = useChats();
+  const { data, isMutating, trigger } = useChats();
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -21,33 +25,33 @@ export default function Chats() {
     }
   }, [session?.user?.email, trigger]);
 
-  const handleSelect = (u: any) => {
+  const handleSelect = (u: Chat['userInfo']) => {
     // dispatch({ type: "CHANGE_USER", payload: u });
   };
+
+  const chats = data && data.userChats && Object.entries(data?.userChats) as Array<[string, Chat]>;
 
   return (
     <div className={styles.chats}>
       <div className={styles.chats}>
-        {/* {data && data.sort((a, b) => (b.date ? b.date : 0) - (a.date ? a.date : 0)).map((chat) => (
-          <div
-            className={styles.userChat}
-            key={'chat[0]'}
-            onClick={() => handleSelect(chat[1].userInfo)}
-          >
-            <Image
-              src={'chat[1].userInfo.photoURL'}
-              alt="user image"
-              width={24}
-              height={24}
-            />
-            <div className={styles.userChatInfo}>
-              <span>{chat[1].userInfo.displayName}</span>
-              <p>{chat[1].lastMessage?.text}</p>
+        {isMutating && <p>Loading...</p>}
+        {chats?.sort((a: [string, Chat], b: [string, Chat]) => (b[1].date._seconds || 0) - (a[1].date._seconds || 0))
+          .map((chat: [string, Chat]) => (
+            <div
+              className="userChat"
+              key={chat[0]}
+              onClick={() => handleSelect(chat[1].userInfo)}
+            >
+              {/* <img src={chat[1].userInfo.image} alt="" /> */}
+              <div className="userChatInfo">
+                <span>{chat[1].userInfo.name}</span>
+                <br />
+                <span>{chat[1].userInfo.email}</span>
+                {/* <p>{chat[1].lastMessage?.text}</p> */}
+              </div>
             </div>
-          </div>
-        ))} */}
+          ))}
       </div>
-
     </div>
   );
 }
