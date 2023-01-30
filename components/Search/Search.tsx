@@ -6,6 +6,8 @@ import { useState, KeyboardEventHandler } from 'react';
 import { useSearch } from '@/hooks/useSearch';
 import { useSelect } from '@/hooks/useSelect';
 import { DataUser } from '@/typedef';
+import { useContext } from 'react';
+import { ChatContext } from '@/context/ChatContext';
 
 export default function Search() {
   const [username, setUsername] = useState('');
@@ -13,6 +15,7 @@ export default function Search() {
   const { data: session } = useSession();
   const search = useSearch();
   const select = useSelect();
+  const { dispatch } = useContext(ChatContext);
 
   const handleSearch = async () => {
     search.trigger({ name: username });
@@ -25,6 +28,7 @@ export default function Search() {
   };
 
   const handleSelect = async (user: DataUser) => {
+    dispatch({ type: 'CHANGE_USER', payload: user });
     let combinedId = '';
     if (session?.user?.email) {
       combinedId = `${session?.user?.email}+${user.email}`;
