@@ -2,11 +2,18 @@
 import styles from './Message.module.scss';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useContext, useEffect } from 'react';
 import { ChatContext } from '@/context/ChatContext';
+import { Chat } from '@/typedef';
 
 interface MessageProps {
-  message: any;
+  message: {
+    date: Chat['date'];
+    id: string;
+    senderId: string;
+    text: string;
+    image?: any
+  }
 }
 
 export default function Message({ message }: MessageProps) {
@@ -15,6 +22,10 @@ export default function Message({ message }: MessageProps) {
   const { data: session } = useSession();
 
   const imageSrc = message.senderId === session?.user?.email ? session?.user?.image || '' : chatContextData.user.image;
+
+  useEffect(() => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [message]);
 
   return (
     <div ref={ref} className={`${styles.message} ${message.senderId === session?.user?.email && styles.owner}`}>
