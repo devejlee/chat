@@ -17,7 +17,7 @@ export default function Chats({ select }: ChatsProps) {
   const { data: session } = useSession();
   const { data, isLoading, mutate } = useChats(session?.user?.email ? session?.user?.email : '');
 
-  const { dispatch } = useContext(ChatContext);
+  const { dispatch, data: chatContextData } = useContext(ChatContext);
 
   const handleSelect = (userInfo: ChatData['userInfo']) => {
     dispatch({ type: 'CHANGE_USER', payload: userInfo });
@@ -27,7 +27,7 @@ export default function Chats({ select }: ChatsProps) {
     if (!select.isMutating) {
       mutate();
     }
-  }, [select.isMutating, mutate]);
+  }, [select.isMutating, chatContextData.isSendingMessage, mutate]);
 
   const chats = data && data.userChats && Object.entries(data?.userChats) as Array<[string, ChatData]>;
   const sortedChats = chats && [...chats]?.sort((a: [string, ChatData], b: [string, ChatData]) => (b[1].date._seconds || 0) - (a[1].date._seconds || 0));

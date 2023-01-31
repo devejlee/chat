@@ -1,19 +1,12 @@
 'use client';
 import styles from './Input.module.scss';
 import { useSession } from 'next-auth/react';
-import { useState, useContext, KeyboardEventHandler } from 'react';
+import { useState, useContext, KeyboardEventHandler, useEffect } from 'react';
 import { BsPaperclip } from 'react-icons/bs';
 import { AiOutlinePicture } from 'react-icons/ai';
 import { ChatContext } from '@/context/ChatContext';
-import { CurrentUser } from '@/typedef';
-import Modal from '../Modal/Modal';
 import { useSendMessages } from '@/hooks/useSendMessages';
-
-interface InputProps {
-  sendMessages: {
-    trigger: (selectedUser: { selectedUser: CurrentUser; currentUser: CurrentUser, text: string }) => void;
-  };
-};
+import Modal from '../Modal/Modal';
 
 export default function Input() {
   const [text, setText] = useState('');
@@ -21,7 +14,7 @@ export default function Input() {
   const [isOpen, setIsOpen] = useState(false);
 
   const { data: session } = useSession();
-  const { data: chatContextData } = useContext(ChatContext);
+  const { data: chatContextData, dispatch } = useContext(ChatContext);
 
   const sendMessages = useSendMessages();
 
@@ -45,6 +38,14 @@ export default function Input() {
     }
     setText('');
   };
+
+  useEffect(() => {
+    if (sendMessages.isMutating) {
+      dispatch({ type: 'SENDING_MESSAGE' });
+    } else {
+      dispatch({ type: 'NOT_SENDING_MESSAGE' });
+    }
+  }, [sendMessages.isMutating, dispatch]);
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen} text={<>Search for a user to chat. <br /> Try: Elijah Lee</>}>

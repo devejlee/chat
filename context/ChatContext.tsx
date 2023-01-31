@@ -9,11 +9,12 @@ interface ChatContextProviderProps {
 interface ChatState {
   chatId: string | null;
   user: ChatData['userInfo'];
+  isSendingMessage: boolean,
 }
 
 interface Action {
   type: string;
-  payload: ChatData['userInfo'];
+  payload?: ChatData['userInfo'];
 }
 
 interface ChatContextValue {
@@ -28,7 +29,8 @@ export const ChatContext = createContext<ChatContextValue>({
       name: '',
       email: '',
       image: ''
-    }
+    },
+    isSendingMessage: false,
   },
   dispatch: () => null
 });
@@ -43,17 +45,29 @@ export const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
       email: '',
       image: ''
     },
+    isSendingMessage: false
   };
 
   const chatReducer = (state: ChatState, action: Action) => {
     switch (action.type) {
       case 'CHANGE_USER':
-        if (session?.user?.email) {
+        if (session?.user?.email && action.payload) {
           return {
+            ...state,
             user: action.payload,
             chatId: `${session?.user.email}+${action.payload.email}`,
           };
         }
+      case 'SENDING_MESSAGE':
+        return {
+          ...state,
+          isSendingMessage: true
+        };
+      case 'NOT_SENDING_MESSAGE':
+        return {
+          ...state,
+          isSendingMessage: false
+        };
       default:
         return state;
     }
