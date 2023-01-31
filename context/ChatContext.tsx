@@ -1,6 +1,6 @@
 import { createContext, useReducer, ReactNode } from 'react';
 import { useSession } from 'next-auth/react';
-import { Chat } from '@/typedef';
+import { ChatData } from '@/typedef';
 
 interface ChatContextProviderProps {
   children: ReactNode;
@@ -8,12 +8,12 @@ interface ChatContextProviderProps {
 
 interface ChatState {
   chatId: string | null;
-  user: Chat['userInfo'];
+  user: ChatData['userInfo'];
 }
 
 interface Action {
   type: string;
-  payload: Chat['userInfo'];
+  payload: ChatData['userInfo'];
 }
 
 interface ChatContextValue {

@@ -4,13 +4,13 @@ import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { useState, KeyboardEventHandler } from 'react';
 import { useSearch } from '@/hooks/useSearch';
-import { DataUser } from '@/typedef';
+import { DataUser, CurrentUser } from '@/typedef';
 import { useContext } from 'react';
 import { ChatContext } from '@/context/ChatContext';
 
 interface SearchProps {
   select: {
-    trigger: (selectedUser: { selectedUser: DataUser; currentUser: any }) => void;
+    trigger: (selectedUser: { selectedUser: DataUser; currentUser: CurrentUser }) => void;
   };
 };
 
