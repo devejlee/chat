@@ -4,16 +4,21 @@ import { useSession } from 'next-auth/react';
 import { useState, useContext } from 'react';
 import { BsPaperclip } from 'react-icons/bs';
 import { AiOutlinePicture } from 'react-icons/ai';
-import { useSendMessages } from '@/hooks/useSendMessages';
 import { ChatContext } from '@/context/ChatContext';
+import { CurrentUser } from '@/typedef';
 
-export default function Input() {
+interface InputProps {
+  sendMessages: {
+    trigger: (selectedUser: { selectedUser: CurrentUser; currentUser: CurrentUser, text: string }) => void;
+  };
+};
+
+export default function Input({ sendMessages }: InputProps) {
   const [text, setText] = useState('');
   const [img, setImg] = useState<File | null>(null);
 
   const { data: session } = useSession();
   const { data: chatContextData } = useContext(ChatContext);
-  const sendMessages = useSendMessages();
 
   const handleSend = async () => {
     if (session?.user?.email) {
@@ -23,6 +28,7 @@ export default function Input() {
         text: text
       });
     }
+    setText('');
   };
 
   return (

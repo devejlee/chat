@@ -3,9 +3,8 @@ import styles from './Chat.module.scss';
 import { useContext } from 'react';
 import { BsCameraVideoFill, BsPersonPlusFill } from 'react-icons/bs';
 import { FaEllipsisH } from 'react-icons/fa';
-import Messages from '../Messages/Messages';
-import Input from '../Input/Input';
 import { ChatContext } from '@/context/ChatContext';
+import MessagesWithInput from '../MessagesWithInput/MessagesWithInput';
 
 export default function Chat() {
   const { data } = useContext(ChatContext);
@@ -19,8 +18,7 @@ export default function Chat() {
           <FaEllipsisH />
         </div>
       </div>
-      <Messages />
-      <Input />
+      <MessagesWithInput />
     </div>
   );
 };
