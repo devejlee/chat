@@ -8,12 +8,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<DataPayload>) =
     const { selectedUser, currentUser } = req.body;
     try {
       const chatRef = database.collection('chats');
-      await chatRef.doc(`${currentUser.email}+${selectedUser.email}`).set({
-        messages: []
-      }, { merge: true });
-      await chatRef.doc(`${selectedUser.email}+${currentUser.email}`).set({
-        messages: []
-      }, { merge: true });
+      const chatDoc1 = await chatRef.doc(`${currentUser.email}+${selectedUser.email}`).get();
+      if (!chatDoc1.exists || !chatDoc1.data()?.messages) {
+        await chatRef.doc(`${currentUser.email}+${selectedUser.email}`).set({
+          messages: []
+        }, { merge: true });
+      }
+      const chatDoc2 = await chatRef.doc(`${selectedUser.email}+${currentUser.email}`).get();
+      if (!chatDoc2.exists || !chatDoc2.data()?.messages) {
+        await chatRef.doc(`${selectedUser.email}+${currentUser.email}`).set({
+          messages: []
+        }, { merge: true });
+      }
       const userChatsRef = database.collection('userChats');
       await userChatsRef.doc(selectedUser.email).set({
         [`${currentUser.email}+${selectedUser.email}`]: {
@@ -44,6 +50,5 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<DataPayload>) =
     }
   }
 };
-
 
 export default handler;
