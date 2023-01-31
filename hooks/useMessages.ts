@@ -1,7 +1,11 @@
 import useSWR from 'swr';
 
 const fetcher = async (url: string) => {
-  const res = await fetch(url);
+  const res = await fetch(url, {
+    headers: {
+      'Content-Type': 'text/event-stream',
+    },
+  });
   return res.json();
 };
 
