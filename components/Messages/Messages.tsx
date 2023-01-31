@@ -15,6 +15,7 @@ interface MessagesProps {
 export default function Messages({ sendMessages }: MessagesProps) {
   const { data: chatContextData } = useContext(ChatContext);
   const { data, isLoading, mutate } = useMessages(chatContextData.chatId ? chatContextData.chatId : '', chatContextData.chatId !== null);
+
   useEffect(() => {
     if (!sendMessages.isMutating) {
       mutate();
