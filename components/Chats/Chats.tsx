@@ -58,7 +58,7 @@ export default function Chats({ select }: ChatsProps) {
                 />
                 <div className={styles.userChatInfo}>
                   <span>{chat[1].userInfo.name}</span>
-                  {/* <p>{chat[1].lastMessage?.text}</p> */}
+                  <p>{chat[1].lastMessage?.text}</p>
                 </div>
               </div>
             ))}

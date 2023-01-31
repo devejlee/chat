@@ -27,6 +27,9 @@ export interface ChatData {
     _seconds: number;
     _nanoseconds: number;
   };
+  lastMessage: {
+    text: string;
+  }
 }
 
 export interface MessageData {
