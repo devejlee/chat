@@ -7,6 +7,7 @@ import { AiOutlinePicture } from 'react-icons/ai';
 import { ChatContext } from '@/context/ChatContext';
 import { CurrentUser } from '@/typedef';
 import Modal from '../Modal/Modal';
+import { useSendMessages } from '@/hooks/useSendMessages';
 
 interface InputProps {
   sendMessages: {
@@ -14,13 +15,15 @@ interface InputProps {
   };
 };
 
-export default function Input({ sendMessages }: InputProps) {
+export default function Input() {
   const [text, setText] = useState('');
   const [img, setImg] = useState<File | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   const { data: session } = useSession();
   const { data: chatContextData } = useContext(ChatContext);
+
+  const sendMessages = useSendMessages();
 
   const handleKey: KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.code === 'Enter') {
