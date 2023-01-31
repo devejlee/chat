@@ -44,7 +44,7 @@ export default function Chats({ select }: ChatsProps) {
       <div className={styles.chats}>
         {isLoading || select.isMutating ? <p className={styles.message}>Loading...</p>
           : <>
-            {sortedChats.map((chat: [string, ChatData]) => (
+            {sortedChats?.map((chat: [string, ChatData]) => (
               <div
                 className={styles.userChat}
                 key={chat[0]}

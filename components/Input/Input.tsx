@@ -6,6 +6,7 @@ import { BsPaperclip } from 'react-icons/bs';
 import { AiOutlinePicture } from 'react-icons/ai';
 import { ChatContext } from '@/context/ChatContext';
 import { CurrentUser } from '@/typedef';
+import Modal from '../Modal/Modal';
 
 interface InputProps {
   sendMessages: {
@@ -16,6 +17,7 @@ interface InputProps {
 export default function Input({ sendMessages }: InputProps) {
   const [text, setText] = useState('');
   const [img, setImg] = useState<File | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const { data: session } = useSession();
   const { data: chatContextData } = useContext(ChatContext);
@@ -27,6 +29,10 @@ export default function Input({ sendMessages }: InputProps) {
   };
 
   const handleSend = async () => {
+    if (!chatContextData.user.name) {
+      setIsOpen(true);
+      return;
+    }
     if (session?.user?.email) {
       sendMessages.trigger({
         selectedUser: chatContextData.user,
@@ -38,27 +44,29 @@ export default function Input({ sendMessages }: InputProps) {
   };
 
   return (
-    <div className={styles.input}>
-      <input
-        type="text"
-        placeholder="Type something..."
-        onChange={(e) => setText(e.target.value)}
-        onKeyDown={handleKey}
-        value={text}
-      />
-      <div className={styles.send}>
-        <BsPaperclip />
+    <Modal isOpen={isOpen} setIsOpen={setIsOpen} text={<>Search for a user to chat. <br /> Try: Elijah Lee</>}>
+      <div className={styles.input}>
         <input
-          type="file"
-          style={{ display: 'none' }}
-          id="file"
-          onChange={(e) => setImg(e.target.files ? e.target.files[0] : null)}
+          type="text"
+          placeholder="Type something..."
+          onChange={(e) => setText(e.target.value)}
+          onKeyDown={handleKey}
+          value={text}
         />
-        <label htmlFor="file">
-          <AiOutlinePicture />
-        </label>
-        <button onClick={handleSend}>Send</button>
+        <div className={styles.send}>
+          <BsPaperclip />
+          <input
+            type="file"
+            style={{ display: 'none' }}
+            id="file"
+            onChange={(e) => setImg(e.target.files ? e.target.files[0] : null)}
+          />
+          <label htmlFor="file">
+            <AiOutlinePicture />
+          </label>
+          <button onClick={handleSend}>Send</button>
+        </div>
       </div>
-    </div>
+    </Modal>
   );
 }
