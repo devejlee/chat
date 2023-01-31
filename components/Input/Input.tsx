@@ -1,15 +1,28 @@
 'use client';
 import styles from './Input.module.scss';
-import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { useState, useContext } from 'react';
 import { BsPaperclip } from 'react-icons/bs';
 import { AiOutlinePicture } from 'react-icons/ai';
+import { useSendMessages } from '@/hooks/useSendMessages';
+import { ChatContext } from '@/context/ChatContext';
 
 export default function Input() {
   const [text, setText] = useState('');
   const [img, setImg] = useState<File | null>(null);
 
-  const handleSend = async () => {
+  const { data: session } = useSession();
+  const { data: chatContextData } = useContext(ChatContext);
+  const sendMessages = useSendMessages();
 
+  const handleSend = async () => {
+    if (session?.user?.email) {
+      sendMessages.trigger({
+        selectedUser: chatContextData.user,
+        currentUser: session.user,
+        text: text
+      });
+    }
   };
 
   return (

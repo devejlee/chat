@@ -33,9 +33,7 @@ export default function Search({ select }: SearchProps) {
 
   const handleSelect = async (user: DataUser) => {
     dispatch({ type: 'CHANGE_USER', payload: user });
-    let combinedId = '';
     if (session?.user?.email) {
-      combinedId = `${session?.user?.email}+${user.email}`;
       select.trigger({
         selectedUser: user,
         currentUser: session.user

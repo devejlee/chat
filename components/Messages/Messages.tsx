@@ -11,7 +11,7 @@ export default function Messages() {
   return (
     <div className={styles.messages}>
       {chatMessages.isLoading && <p>Loading...</p>}
-      {chatMessages.data && chatMessages.data.chats.messages.map((message: any) => (
+      {chatMessages.data && chatMessages.data?.chats?.messages.map((message: any) => (
         <Message message={message} key={message.id} />
       ))}
     </div>

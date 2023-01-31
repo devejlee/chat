@@ -14,12 +14,14 @@ export default function Message({ message }: MessageProps) {
   const { data: chatContextData } = useContext(ChatContext);
   const { data: session } = useSession();
 
+  const imageSrc = message.senderId === session?.user?.email ? session?.user?.image || '' : chatContextData.user.image;
+
   return (
-    <div ref={ref}>
+    <div ref={ref} className={`${styles.message} ${message.senderId === session?.user?.email && styles.owner}`}>
       <div className={styles.messageInfo}>
         <Image
-          src={session?.user?.image ? session?.user?.image : ''}
-          alt="user image"
+          src={imageSrc}
+          alt="current user image"
           width={24}
           height={24}
         />
@@ -27,7 +29,7 @@ export default function Message({ message }: MessageProps) {
       </div>
       <div className={styles.messageContent}>
         <p>{message.text}</p>
-        {message.image && <Image src={chatContextData.user.image} alt="user image" width={24} height={24} />}
+        {message.image && <Image src={message.image} alt="selected user image" width={100} height={100} />}
       </div>
     </div>
   );
