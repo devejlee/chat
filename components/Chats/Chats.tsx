@@ -4,7 +4,7 @@ import React, { useEffect, useContext } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { useChats } from '@/hooks/useChats';
-import { Chat } from '@/typedef';
+import { ChatData } from '@/typedef';
 import { ChatContext } from '@/context/ChatContext';
 
 interface ChatsProps {
@@ -19,7 +19,7 @@ export default function Chats({ select }: ChatsProps) {
 
   const { dispatch } = useContext(ChatContext);
 
-  const handleSelect = (userInfo: Chat['userInfo']) => {
+  const handleSelect = (userInfo: ChatData['userInfo']) => {
     dispatch({ type: 'CHANGE_USER', payload: userInfo });
   };
 
@@ -29,15 +29,15 @@ export default function Chats({ select }: ChatsProps) {
     }
   }, [select.isMutating, mutate]);
 
-  const chats = data && data.userChats && Object.entries(data?.userChats) as Array<[string, Chat]>;
+  const chats = data && data.userChats && Object.entries(data?.userChats) as Array<[string, ChatData]>;
 
   return (
     <div className={styles.chats}>
       <div className={styles.chats}>
         {isLoading || select.isMutating ? <p className={styles.message}>Loading...</p>
           : <>
-            {chats?.sort((a: [string, Chat], b: [string, Chat]) => (b[1].date._seconds || 0) - (a[1].date._seconds || 0))
-              .map((chat: [string, Chat]) => (
+            {chats?.sort((a: [string, ChatData], b: [string, ChatData]) => (b[1].date._seconds || 0) - (a[1].date._seconds || 0))
+              .map((chat: [string, ChatData]) => (
                 <div
                   className={styles.userChat}
                   key={chat[0]}

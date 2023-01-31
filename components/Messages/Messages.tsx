@@ -4,6 +4,7 @@ import React, { useContext, useEffect } from 'react';
 import Message from '../Message/Message';
 import { ChatContext } from '@/context/ChatContext';
 import { useMessages } from '@/hooks/useMessages';
+import { MessageData } from '@/typedef';
 
 interface MessagesProps {
   sendMessages: {
@@ -23,7 +24,7 @@ export default function Messages({ sendMessages }: MessagesProps) {
   return (
     <div className={styles.messages}>
       {isLoading && <p>Loading...</p>}
-      {data && data?.chats?.messages.map((message: any) => (
+      {data && data?.chats?.messages.map((message: MessageData) => (
         <Message message={message} key={message.id} />
       ))}
     </div>

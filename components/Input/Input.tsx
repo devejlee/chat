@@ -1,7 +1,7 @@
 'use client';
 import styles from './Input.module.scss';
 import { useSession } from 'next-auth/react';
-import { useState, useContext } from 'react';
+import { useState, useContext, KeyboardEventHandler } from 'react';
 import { BsPaperclip } from 'react-icons/bs';
 import { AiOutlinePicture } from 'react-icons/ai';
 import { ChatContext } from '@/context/ChatContext';
@@ -20,6 +20,12 @@ export default function Input({ sendMessages }: InputProps) {
   const { data: session } = useSession();
   const { data: chatContextData } = useContext(ChatContext);
 
+  const handleKey: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.code === 'Enter') {
+      handleSend();
+    }
+  };
+
   const handleSend = async () => {
     if (session?.user?.email) {
       sendMessages.trigger({
@@ -37,6 +43,7 @@ export default function Input({ sendMessages }: InputProps) {
         type="text"
         placeholder="Type something..."
         onChange={(e) => setText(e.target.value)}
+        onKeyDown={handleKey}
         value={text}
       />
       <div className={styles.send}>

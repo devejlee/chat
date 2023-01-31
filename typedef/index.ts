@@ -17,7 +17,7 @@ export interface CurrentUser {
   name?: string | null | undefined;
 }
 
-export interface Chat {
+export interface ChatData {
   userInfo: {
     name: string;
     email: string;
@@ -27,4 +27,12 @@ export interface Chat {
     _seconds: number;
     _nanoseconds: number;
   };
+}
+
+export interface MessageData {
+  date: ChatData['date'];
+  id: string;
+  senderId: string;
+  text: string;
+  image?: any
 }

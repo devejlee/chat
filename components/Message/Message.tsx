@@ -4,16 +4,10 @@ import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import React, { useRef, useContext, useEffect } from 'react';
 import { ChatContext } from '@/context/ChatContext';
-import { Chat } from '@/typedef';
+import { MessageData } from '@/typedef';
 
 interface MessageProps {
-  message: {
-    date: Chat['date'];
-    id: string;
-    senderId: string;
-    text: string;
-    image?: any
-  }
+  message: MessageData
 }
 
 export default function Message({ message }: MessageProps) {
