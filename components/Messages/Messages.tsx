@@ -1,39 +1,31 @@
 'use client';
 import styles from './Messages.module.scss';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Message from '../Message/Message';
 import { ChatContext } from '@/context/ChatContext';
 import { useMessages } from '@/hooks/useMessages';
 import { MessageData } from '@/typedef';
 
-export default function Messages() {
-  const [messages, setMessages] = useState<Array<MessageData>>([]);
+interface MessagesProps {
+  sendMessages: {
+    isMutating: boolean;
+  };
+};
 
+export default function Messages({ sendMessages }: MessagesProps) {
   const { data: chatContextData } = useContext(ChatContext);
-  const slug = chatContextData.chatId ? chatContextData.chatId : '';
-  const encodedSlug = encodeURIComponent(slug);
-  const { isLoading } = useMessages(chatContextData.chatId || '', Boolean(chatContextData.chatId));
+  const { data, isLoading, mutate } = useMessages(chatContextData.chatId ? chatContextData.chatId : '', chatContextData.chatId !== null);
 
   useEffect(() => {
-    if (!encodedSlug) {
-      return;
+    if (!sendMessages.isMutating) {
+      mutate();
     }
-    const eventSource = new EventSource(`/api/messages?chatId=${encodedSlug}`);
-
-    eventSource.onmessage = (event) => {
-      const message = JSON.parse(event.data);
-      setMessages(message?.chats?.messages);
-    };
-
-    return () => {
-      eventSource.close();
-    };
-  }, [encodedSlug]);
+  }, [sendMessages.isMutating, mutate]);
 
   return (
     <div className={styles.messages}>
       {isLoading && <p>Loading...</p>}
-      {messages?.map((message: MessageData) => (
+      {data && data?.chats?.messages.map((message: MessageData) => (
         <Message message={message} key={message.id} />
       ))}
     </div>

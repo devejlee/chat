@@ -5,18 +5,23 @@ import { useState, useContext, KeyboardEventHandler, useEffect } from 'react';
 import { BsPaperclip } from 'react-icons/bs';
 import { AiOutlinePicture } from 'react-icons/ai';
 import { ChatContext } from '@/context/ChatContext';
-import { useSendMessages } from '@/hooks/useSendMessages';
+import { CurrentUser } from '@/typedef';
 import Modal from '../Modal/Modal';
 
-export default function Input() {
+interface InputProps {
+  sendMessages: {
+    trigger: (selectedUser: { selectedUser: CurrentUser; currentUser: CurrentUser, text: string }) => void;
+    isMutating: boolean;
+  };
+};
+
+export default function Input({ sendMessages }: InputProps) {
   const [text, setText] = useState('');
   const [img, setImg] = useState<File | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   const { data: session } = useSession();
   const { data: chatContextData, dispatch } = useContext(ChatContext);
-
-  const sendMessages = useSendMessages();
 
   const handleKey: KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.code === 'Enter') {
