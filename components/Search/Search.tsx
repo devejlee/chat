@@ -26,6 +26,7 @@ export default function Search({ select }: SearchProps) {
   };
 
   const handleKey: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    alert(e.key);
     if (e.key === 'Enter' || e.key === 'NumpadEnter') {
       handleSearch();
     }
