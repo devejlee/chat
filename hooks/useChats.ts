@@ -6,7 +6,9 @@ const fetcher = async (url: string) => {
 };
 
 export const useChats = (slug: string) => {
-  const { data, isLoading, error, mutate } = useSWR(`/api/userChats/?email=${slug}`, fetcher);
+  const { data, isLoading, error, mutate } = useSWR(`/api/userChats/?email=${slug}`, fetcher, {
+    refreshInterval: 500
+  });
 
   return {
     data,
