@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import React, { useRef, useContext, useEffect } from 'react';
 import { ChatContext } from '@/context/ChatContext';
 import { MessageData } from '@/typedef';
+import { formatTimestamp } from '@/utils';
 
 interface MessageProps {
   message: MessageData
@@ -30,7 +31,7 @@ export default function Message({ message }: MessageProps) {
           width={24}
           height={24}
         />
-        <span>just now</span>
+        <span>{formatTimestamp(message.date._seconds)}</span>
       </div>
       <div className={styles.messageContent}>
         <p>{message.text}</p>
