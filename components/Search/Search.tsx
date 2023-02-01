@@ -26,7 +26,6 @@ export default function Search({ select }: SearchProps) {
   };
 
   const handleKey: KeyboardEventHandler<HTMLInputElement> = (e) => {
-    alert(e.key);
     if (e.key === 'Enter' || e.key === 'NumpadEnter') {
       handleSearch();
     }
@@ -50,7 +49,6 @@ export default function Search({ select }: SearchProps) {
     <div className={styles.search}>
       <div className={styles.searchForm}>
         <input
-          disabled={search.isMutating}
           type="text"
           placeholder="Find a user"
           onKeyDown={handleKey}
