@@ -43,6 +43,8 @@ export default function Search({ select }: SearchProps) {
     setUsername('');
   };
 
+  const filteredUsers = search.data?.users?.filter((user) => user.email !== session?.user?.email);
+
   return (
     <div className={styles.search}>
       <div className={styles.searchForm}>
@@ -60,7 +62,7 @@ export default function Search({ select }: SearchProps) {
       {!search.isMutating && search.data && !search.data?.users && <span className={styles.message}>Users not found!</span>}
       {!search.isMutating && search.data?.users && (
         <div className={styles.userList}>
-          {search.data?.users.map((user) => (
+          {filteredUsers?.map((user) => (
             <div className={styles.userChat} key={user.email} onClick={() => handleSelect(user)}>
               <Image
                 src={user.image}

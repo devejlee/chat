@@ -23,22 +23,22 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<DataPayload>) =
       const userChatsRef = database.collection('userChats');
       await userChatsRef.doc(selectedUser.email).set({
         [`${currentUser.email}+${selectedUser.email}`]: {
-          'userInfo': {
+          userInfo: {
             email: currentUser.email,
             name: currentUser.name,
             image: currentUser.image
           },
-          'date': FieldValue.serverTimestamp()
+          date: FieldValue.serverTimestamp()
         },
       }, { merge: true });
       await userChatsRef.doc(currentUser.email).set({
         [`${selectedUser.email}+${currentUser.email}`]: {
-          'userInfo': {
+          userInfo: {
             email: selectedUser.email,
             name: selectedUser.name,
             image: selectedUser.image
           },
-          'date': FieldValue.serverTimestamp()
+          date: FieldValue.serverTimestamp()
         },
       }, { merge: true });
       return res.status(200).json({

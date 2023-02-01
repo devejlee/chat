@@ -28,18 +28,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<DataPayload>) =
       const userChatsRef = database.collection('userChats');
       await userChatsRef.doc(selectedUser.email).set({
         [`${currentUser.email}+${selectedUser.email}`]: {
-          'lastMessage': {
+          lastMessage: {
             text: text,
           },
-          'date': FieldValue.serverTimestamp()
+          date: FieldValue.serverTimestamp()
         },
       }, { merge: true });
       await userChatsRef.doc(currentUser.email).set({
         [`${selectedUser.email}+${currentUser.email}`]: {
-          'lastMessage': {
+          lastMessage: {
             text: text,
           },
-          'date': FieldValue.serverTimestamp()
+          date: FieldValue.serverTimestamp()
         },
       }, { merge: true });
       return res.status(200).json({
