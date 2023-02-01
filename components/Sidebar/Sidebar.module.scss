@@ -4,6 +4,7 @@
   flex: 1;
   background-color: #3e3c61;
   position: relative;
+  overflow-y: scroll;
   @include mobile {
     display: none;
   }

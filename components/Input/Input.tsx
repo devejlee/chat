@@ -24,7 +24,7 @@ export default function Input({ sendMessages }: InputProps) {
   const { data: chatContextData, dispatch } = useContext(ChatContext);
 
   const handleKey: KeyboardEventHandler<HTMLInputElement> = (e) => {
-    if (e.code === 'Enter') {
+    if (e.key === 'Enter') {
       handleSend();
     }
   };

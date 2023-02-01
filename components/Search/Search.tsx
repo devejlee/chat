@@ -26,7 +26,7 @@ export default function Search({ select }: SearchProps) {
   };
 
   const handleKey: KeyboardEventHandler<HTMLInputElement> = (e) => {
-    if (e.code === 'Enter') {
+    if (e.key === 'Enter') {
       handleSearch();
     }
   };
