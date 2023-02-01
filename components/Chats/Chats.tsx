@@ -41,29 +41,27 @@ export default function Chats({ select }: ChatsProps) {
 
   return (
     <div className={styles.chats}>
-      <div className={styles.chats}>
-        {isLoading || select.isMutating ? <p className={styles.message}>Loading...</p>
-          : <>
-            {sortedChats?.map((chat: [string, ChatData]) => (
-              <div
-                className={styles.userChat}
-                key={chat[0]}
-                onClick={() => handleSelect(chat[1].userInfo)}
-              >
-                <Image
-                  src={chat[1].userInfo.image}
-                  alt="user image"
-                  width={50}
-                  height={50}
-                />
-                <div className={styles.userChatInfo}>
-                  <span>{chat[1].userInfo.name}</span>
-                  <p>{chat[1].lastMessage?.text}</p>
-                </div>
+      {isLoading || select.isMutating ? <p className={styles.message}>Loading...</p>
+        : <>
+          {sortedChats?.map((chat: [string, ChatData]) => (
+            <div
+              className={styles.userChat}
+              key={chat[0]}
+              onClick={() => handleSelect(chat[1].userInfo)}
+            >
+              <Image
+                src={chat[1].userInfo.image}
+                alt="user image"
+                width={50}
+                height={50}
+              />
+              <div className={styles.userChatInfo}>
+                <span>{chat[1].userInfo.name}</span>
+                <p>{chat[1].lastMessage?.text}</p>
               </div>
-            ))}
-          </>}
-      </div>
+            </div>
+          ))}
+        </>}
     </div>
   );
 }

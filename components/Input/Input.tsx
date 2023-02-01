@@ -48,7 +48,7 @@ export default function Input() {
   }, [sendMessages.isMutating, dispatch]);
 
   return (
-    <Modal isOpen={isOpen} setIsOpen={setIsOpen} text={<>Search for a user to chat. <br /> Try: Elijah Lee</>}>
+    <Modal isOpen={isOpen} setIsOpen={setIsOpen} text={<>Open the mobile menu and search for a user to chat. <br /> Try: Elijah Lee</>}>
       <div className={styles.input}>
         <input
           type="text"

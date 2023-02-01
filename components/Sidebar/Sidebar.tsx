@@ -4,7 +4,7 @@ import SearchWithChats from '../SearchWithChats/SearchWithChats';
 
 export default function Sidebar() {
   return (
-    <div className={styles.sidebar}>
+    <div className={`${styles.sidebar} sidebar`}>
       <Navbar />
       <SearchWithChats />
     </div>
