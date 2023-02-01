@@ -20,6 +20,7 @@
   button {
     display: none;
     margin-right: 5px;
+    width: 30px;
     @include mobile {
       display: flex;
       padding: 5px;

@@ -7,6 +7,7 @@ import { useSearch } from '@/hooks/useSearch';
 import { DataUser, CurrentUser } from '@/typedef';
 import { useContext } from 'react';
 import { ChatContext } from '@/context/ChatContext';
+import { BiSearch } from 'react-icons/bi';
 
 interface SearchProps {
   select: {
@@ -49,12 +50,16 @@ export default function Search({ select }: SearchProps) {
     <div className={styles.search}>
       <div className={styles.searchForm}>
         <input
+          disabled={search.isMutating}
           type="text"
           placeholder="Find a user"
           onKeyDown={handleKey}
           onChange={(e) => setUsername(e.target.value)}
           value={username}
         />
+        <button onClick={handleSearch}>
+          <BiSearch />
+        </button>
       </div>
       {search.error && <span className={styles.message}>Error searching</span>}
       {search.isMutating && <span className={styles.message}>Seaching...</span>}
