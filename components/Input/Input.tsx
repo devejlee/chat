@@ -30,6 +30,9 @@ export default function Input({ sendMessages }: InputProps) {
   };
 
   const handleSend = async () => {
+    if (text.length === 0) {
+      return;
+    }
     if (!chatContextData.user.name) {
       setIsOpen(true);
       return;
