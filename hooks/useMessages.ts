@@ -9,7 +9,9 @@ export const useMessages = (slug: string, shouldFetch: boolean) => {
   const encodedSlug = encodeURIComponent(slug);
   const { data, isLoading, error, mutate } = useSWR(
     shouldFetch ? `/api/messages/?chatId=${encodedSlug}` : null,
-    fetcher
+    fetcher, {
+      refreshInterval: 500
+    }
   );
 
   return {
