@@ -5,6 +5,7 @@
   background-color: #3e3c61;
   position: relative;
   overflow-y: scroll;
+  min-width: 200px;
   @include mobile {
     display: none;
   }
