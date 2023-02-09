@@ -4,9 +4,10 @@
   flex: 1;
   background-color: #3e3c61;
   position: relative;
-  // overflow-y: scroll;
+  overflow-y: scroll;
   // min-width: 200px;
   @include mobile {
+    overflow-y: unset;
     display: none;
   }
 }
